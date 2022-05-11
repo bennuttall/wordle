@@ -8,7 +8,7 @@ BIG_WORDLIST = 'words.txt'
 
 wordlist = LINUX_SYSTEM_DICT
 # wordlist = MAC_SYSTEM_DICT
-wordlist = BIG_WORDLIST
+# wordlist = BIG_WORDLIST
 
 
 with open(wordlist) as f:
@@ -24,26 +24,25 @@ PLURALS = {word for word in WORDS if word.endswith('s') and word[:4] in ALL_WORD
 UNIQUE_LETTER_WORDS = {word for word in WORDS if len(set(word)) == 5}
 WORDS = WORDS - PLURALS
 
-c = Counter(chain.from_iterable(WORDS))
-mc = c.most_common()
-letter_counts = {letter: count for letter, count in mc}
+def get_letter_counts(words):
+    c = Counter(chain.from_iterable(words))
+    mc = c.most_common()
+    return {letter: count for letter, count in mc}
 
-def score_word(word):
+def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-word_scores = {word: score_word(word) for word in WORDS}
-
-BLACK_LETTERS = ''
+BLACK_LETTERS = 'anyrubf'
 LETTER_1_GREEN = ''
-LETTER_2_GREEN = ''
+LETTER_2_GREEN = 'e'
 LETTER_3_GREEN = ''
 LETTER_4_GREEN = ''
 LETTER_5_GREEN = ''
 LETTER_1_YELLOWS = ''
-LETTER_2_YELLOWS = ''
-LETTER_3_YELLOWS = ''
-LETTER_4_YELLOWS = ''
-LETTER_5_YELLOWS = ''
+LETTER_2_YELLOWS = 'go'
+LETTER_3_YELLOWS = 'og'
+LETTER_4_YELLOWS = 'o'
+LETTER_5_YELLOWS = 'eg'
 YELLOWS = LETTER_1_YELLOWS + LETTER_2_YELLOWS + LETTER_3_YELLOWS + LETTER_4_YELLOWS + LETTER_5_YELLOWS
 
 possible_words = {
@@ -63,6 +62,20 @@ possible_words = {
     and word[4] not in LETTER_5_YELLOWS
 }
 
-for word in sorted(possible_words, key=lambda w: word_scores[w]):
-    print(word, word_scores[word])
+letter_counts = get_letter_counts(possible_words)
+for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
+    print(word, score_word(word, letter_counts))
 print(len(possible_words), "possible words")
+
+# def foo(w):
+#     return sum(c in w for c in 'ntchp')
+
+# words = {
+#     word
+#     for word in WORDS
+#     if any(c in 'ntchp' for c in word)
+# }
+
+# pw = sorted(words, key=lambda w: foo(w), reverse=True)
+# for w in pw[:10]:
+#     print(w)
