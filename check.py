@@ -1,28 +1,20 @@
-from string import ascii_lowercase
 from itertools import chain
 from collections import Counter
-
-LINUX_SYSTEM_DICT = '/usr/share/dict/american-english'
-MAC_SYSTEM_DICT = '/usr/share/dict/words'
-BIG_WORDLIST = 'words.txt'
-
-wordlist = LINUX_SYSTEM_DICT
-# wordlist = MAC_SYSTEM_DICT
-# wordlist = BIG_WORDLIST
+from pathlib import Path
 
 
-with open(wordlist) as f:
-    ALL_WORDS = {
-        word.lower().strip()
-        for word in f
-        if all(c.lower() in ascii_lowercase for c in word.strip())
-    }
+WORDLIST = Path('words.txt')
+SOLUTIONS_LIST = Path('solutions.txt')
 
-WORDS = {word for word in ALL_WORDS if len(word.strip()) == 5}
+WORDS = {
+    word.lower().strip()
+    for word in WORDLIST.read_text().split()
+}
 
-PLURALS = {word for word in WORDS if word.endswith('s') and word[:4] in ALL_WORDS}
-UNIQUE_LETTER_WORDS = {word for word in WORDS if len(set(word)) == 5}
-WORDS = WORDS - PLURALS
+SOLUTIONS = {
+    word.lower().strip()
+    for word in SOLUTIONS_LIST.read_text().split()
+}
 
 def get_letter_counts(words):
     c = Counter(chain.from_iterable(words))
@@ -32,17 +24,17 @@ def get_letter_counts(words):
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-BLACK_LETTERS = 'anyrubf'
+BLACK_LETTERS = ''
 LETTER_1_GREEN = ''
-LETTER_2_GREEN = 'e'
+LETTER_2_GREEN = ''
 LETTER_3_GREEN = ''
 LETTER_4_GREEN = ''
 LETTER_5_GREEN = ''
 LETTER_1_YELLOWS = ''
-LETTER_2_YELLOWS = 'go'
-LETTER_3_YELLOWS = 'og'
-LETTER_4_YELLOWS = 'o'
-LETTER_5_YELLOWS = 'eg'
+LETTER_2_YELLOWS = ''
+LETTER_3_YELLOWS = ''
+LETTER_4_YELLOWS = ''
+LETTER_5_YELLOWS = ''
 YELLOWS = LETTER_1_YELLOWS + LETTER_2_YELLOWS + LETTER_3_YELLOWS + LETTER_4_YELLOWS + LETTER_5_YELLOWS
 
 possible_words = {
@@ -64,16 +56,19 @@ possible_words = {
 
 letter_counts = get_letter_counts(possible_words)
 for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
-    print(word, score_word(word, letter_counts))
-print(len(possible_words), "possible words")
+    star = '*' if word in SOLUTIONS else ''
+    print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
+print(f"{len(possible_words):,} possible words")
+
+# letters = ''
 
 # def foo(w):
-#     return sum(c in w for c in 'ntchp')
+#     return sum(c in w for c in letters)
 
 # words = {
 #     word
 #     for word in WORDS
-#     if any(c in 'ntchp' for c in word)
+#     if any(c in letters for c in word)
 # }
 
 # pw = sorted(words, key=lambda w: foo(w), reverse=True)
