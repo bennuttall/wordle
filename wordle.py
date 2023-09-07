@@ -18,8 +18,7 @@ SOLUTIONS = {
 
 def get_letter_counts(words):
     c = Counter(chain.from_iterable(words))
-    mc = c.most_common()
-    return {letter: count for letter, count in mc}
+    return {letter: count for letter, count in c.most_common()}
 
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
@@ -54,7 +53,7 @@ possible_words = {
     and word[4] not in LETTER_5_YELLOWS
 }
 
-letter_counts = get_letter_counts(possible_words)
+letter_counts = get_letter_counts(possible_words - SOLUTIONS)
 for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
     star = '*' if word in SOLUTIONS else ''
     print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
