@@ -23,14 +23,14 @@ def get_letter_counts(words):
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-BLACK_LETTERS = ''
-LETTER_1_GREEN = ''
+BLACK_LETTERS = 'os'
+LETTER_1_GREEN = 'a'
 LETTER_2_GREEN = ''
 LETTER_3_GREEN = ''
 LETTER_4_GREEN = ''
-LETTER_5_GREEN = ''
+LETTER_5_GREEN = 'e'
 LETTER_1_YELLOWS = ''
-LETTER_2_YELLOWS = ''
+LETTER_2_YELLOWS = 'r'
 LETTER_3_YELLOWS = ''
 LETTER_4_YELLOWS = ''
 LETTER_5_YELLOWS = ''
@@ -53,13 +53,13 @@ possible_words = {
     and word[4] not in LETTER_5_YELLOWS
 }
 
-letter_counts = get_letter_counts(possible_words - SOLUTIONS)
+letter_counts = get_letter_counts(possible_words)
 for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
     star = '*' if word in SOLUTIONS else ''
     print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
 print(f"{len(possible_words):,} possible words")
 
-# letters = ''
+# letters = 'wpthn'
 
 # def foo(w):
 #     return sum(c in w for c in letters)
@@ -70,6 +70,6 @@ print(f"{len(possible_words):,} possible words")
 #     if any(c in letters for c in word)
 # }
 
-# pw = sorted(words, key=lambda w: foo(w), reverse=True)
-# for w in pw[:10]:
+# pw = [w for w in words if foo(w) == 4]
+# for w in pw:
 #     print(w)
