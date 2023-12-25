@@ -1,6 +1,7 @@
 from itertools import chain
 from collections import Counter
 from pathlib import Path
+import sys
 
 
 WORDLIST = Path('words.txt')
@@ -16,6 +17,20 @@ SOLUTIONS = {
     for word in SOLUTIONS_LIST.read_text().split()
 }
 
+if len(sys.argv) == 2:
+    word = sys.argv[1].lower()
+    if len(word) != 5:
+        print("Word must be 5 characters")
+    elif word not in WORDS:
+        print("Word must be in wordlist")
+    elif word in SOLUTIONS:
+        print("Word already in solutions")
+    else:
+        with SOLUTIONS_LIST.open("a") as f:
+            f.write(f"\n{word.upper()}")
+        print(f"{word.upper()} added")
+    exit()
+
 def get_letter_counts(words):
     c = Counter(chain.from_iterable(words))
     return {letter: count for letter, count in c.most_common()}
@@ -23,14 +38,14 @@ def get_letter_counts(words):
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-BLACK_LETTERS = 'os'
-LETTER_1_GREEN = 'a'
+BLACK_LETTERS = ''
+LETTER_1_GREEN = ''
 LETTER_2_GREEN = ''
 LETTER_3_GREEN = ''
 LETTER_4_GREEN = ''
-LETTER_5_GREEN = 'e'
+LETTER_5_GREEN = ''
 LETTER_1_YELLOWS = ''
-LETTER_2_YELLOWS = 'r'
+LETTER_2_YELLOWS = ''
 LETTER_3_YELLOWS = ''
 LETTER_4_YELLOWS = ''
 LETTER_5_YELLOWS = ''
