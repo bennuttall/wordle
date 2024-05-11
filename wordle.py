@@ -2,20 +2,33 @@ from itertools import chain
 from collections import Counter
 from pathlib import Path
 import sys
+from datetime import datetime, date
+
+
+EPOCH = date(2021, 6, 19)
+
+today = datetime.now().date()
+today_wordle_num = (today - EPOCH).days + 1
 
 
 WORDLIST = Path('words.txt')
 SOLUTIONS_LIST = Path('solutions.txt')
 
-WORDS = {
+WORDS_LIST = [
     word.lower().strip()
     for word in WORDLIST.read_text().split()
-}
+]
+WORDS = set(WORDS_LIST)
+if len(WORDS) != len(WORDS_LIST):
+    print("Word list contains duplicates")
 
-SOLUTIONS = {
+SOLUTIONS_LIST = [
     word.lower().strip()
     for word in SOLUTIONS_LIST.read_text().split()
-}
+]
+SOLUTIONS = set(SOLUTIONS_LIST)
+if len(SOLUTIONS) != len(SOLUTIONS_LIST):
+    "Solutions list contains duplicates"
 
 if len(sys.argv) == 2:
     word = sys.argv[1].lower()
@@ -30,6 +43,15 @@ if len(sys.argv) == 2:
             f.write(f"\n{word.upper()}")
         print(f"{word.upper()} added")
     exit()
+
+missing_solutions = today_wordle_num - len(SOLUTIONS)
+
+if len(SOLUTIONS) > today_wordle_num:
+    print("Too many words in solutions list")
+elif missing_solutions == 1:
+    print("Missing today's solution")
+elif missing_solutions > 1:
+    print(f"Missing {missing_solutions} solutions")
 
 def get_letter_counts(words):
     c = Counter(chain.from_iterable(words))
