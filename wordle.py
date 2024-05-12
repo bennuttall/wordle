@@ -11,12 +11,12 @@ today = datetime.now().date()
 today_wordle_num = (today - EPOCH).days + 1
 
 
-WORDLIST = Path('words.txt')
-SOLUTIONS_LIST = Path('solutions.txt')
+WORDLIST_FILE = Path('words.txt')
+SOLUTIONS_LIST_FILE = Path('solutions.txt')
 
 WORDS_LIST = [
     word.lower().strip()
-    for word in WORDLIST.read_text().split()
+    for word in WORDLIST_FILE.read_text().split()
 ]
 WORDS = set(WORDS_LIST)
 if len(WORDS) != len(WORDS_LIST):
@@ -24,7 +24,7 @@ if len(WORDS) != len(WORDS_LIST):
 
 SOLUTIONS_LIST = [
     word.lower().strip()
-    for word in SOLUTIONS_LIST.read_text().split()
+    for word in SOLUTIONS_LIST_FILE.read_text().split()
 ]
 SOLUTIONS = set(SOLUTIONS_LIST)
 if len(SOLUTIONS) != len(SOLUTIONS_LIST):
@@ -39,7 +39,7 @@ if len(sys.argv) == 2:
     elif word in SOLUTIONS:
         print("Word already in solutions")
     else:
-        with SOLUTIONS_LIST.open("a") as f:
+        with SOLUTIONS_LIST_FILE.open("a") as f:
             f.write(f"\n{word.upper()}")
         print(f"{word.upper()} added")
     exit()
