@@ -30,6 +30,8 @@ SOLUTIONS = set(SOLUTIONS_LIST)
 if len(SOLUTIONS) != len(SOLUTIONS_LIST):
     "Solutions list contains duplicates"
 
+print(f"{len(WORDS) - len(SOLUTIONS):,} / {len(WORDS):,} remaining solutions")
+
 if len(sys.argv) == 2:
     word = sys.argv[1].lower()
     if len(word) != 5:
@@ -96,7 +98,7 @@ for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
     print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
 print(f"{len(possible_words):,} possible words")
 
-# letters = 'wpthn'
+# letters = set('')
 
 # def foo(w):
 #     return sum(c in w for c in letters)
