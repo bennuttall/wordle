@@ -30,10 +30,7 @@ SOLUTIONS = set(SOLUTIONS_LIST)
 if len(SOLUTIONS) != len(SOLUTIONS_LIST):
     "Solutions list contains duplicates"
 
-print(f"{len(WORDS) - len(SOLUTIONS):,} / {len(WORDS):,} remaining solutions")
-
-if len(sys.argv) == 2:
-    word = sys.argv[1].lower()
+def add_solution(word):
     if len(word) != 5:
         print("Word must be 5 characters")
     elif word not in WORDS:
@@ -44,16 +41,19 @@ if len(sys.argv) == 2:
         with SOLUTIONS_LIST_FILE.open("a") as f:
             f.write(f"\n{word.upper()}")
         print(f"{word.upper()} added")
-    exit()
+        SOLUTIONS.add(word)
 
-missing_solutions = today_wordle_num - len(SOLUTIONS)
+def do_missing_solutions():
+    missing_solutions = today_wordle_num - len(SOLUTIONS)
 
-if len(SOLUTIONS) > today_wordle_num:
-    print("Too many words in solutions list")
-elif missing_solutions == 1:
-    print("Missing today's solution")
-elif missing_solutions > 1:
-    print(f"Missing {missing_solutions} solutions")
+    if len(SOLUTIONS) > today_wordle_num:
+        print("Too many words in solutions list")
+    elif missing_solutions == 1:
+        print("Missing today's solution")
+    elif missing_solutions > 1:
+        print(f"Missing {missing_solutions} solutions")
+    else:
+        print("Solutions list up to date")
 
 def get_letter_counts(words):
     c = Counter(chain.from_iterable(words))
@@ -92,13 +92,22 @@ possible_words = {
     and word[4] not in LETTER_5_YELLOWS
 }
 
-letter_counts = get_letter_counts(possible_words)
-for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
-    star = '*' if word in SOLUTIONS else ''
-    print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
-print(f"{len(possible_words):,} possible words")
+print(f"{len(WORDS) - len(SOLUTIONS):,} / {len(WORDS):,} remaining solutions")
+if len(sys.argv) == 2:
+    word = sys.argv[1].lower()
+    add_solution(word)
+    do_missing_solutions()
+else:
+    do_missing_solutions()
 
-# letters = set('')
+    letter_counts = get_letter_counts(possible_words)
+    for word in sorted(possible_words, key=lambda w: score_word(w, letter_counts)):
+        star = '*' if word in SOLUTIONS else ''
+        print(f"{word.upper()} {score_word(word, letter_counts):,} {star}")
+    print(f"{len(possible_words):,} possible words")
+
+
+# letters = set('mgdv')
 
 # def foo(w):
 #     return sum(c in w for c in letters)
@@ -109,6 +118,6 @@ print(f"{len(possible_words):,} possible words")
 #     if any(c in letters for c in word)
 # }
 
-# pw = [w for w in words if foo(w) == 4]
+# pw = [w for w in words if foo(w) == 3]
 # for w in pw:
 #     print(w)
