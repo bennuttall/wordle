@@ -62,16 +62,16 @@ def get_letter_counts(words):
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-BLACK_LETTERS = 'arsepintld'
-LETTER_1_GREEN = 'm'
-LETTER_2_GREEN = 'o'
+BLACK_LETTERS = ''
+LETTER_1_GREEN = ''
+LETTER_2_GREEN = ''
 LETTER_3_GREEN = ''
 LETTER_4_GREEN = ''
-LETTER_5_GREEN = 'y'
+LETTER_5_GREEN = ''
 LETTER_1_YELLOWS = ''
 LETTER_2_YELLOWS = ''
-LETTER_3_YELLOWS = 'o'
-LETTER_4_YELLOWS = 'o'
+LETTER_3_YELLOWS = ''
+LETTER_4_YELLOWS = ''
 LETTER_5_YELLOWS = ''
 YELLOWS = LETTER_1_YELLOWS + LETTER_2_YELLOWS + LETTER_3_YELLOWS + LETTER_4_YELLOWS + LETTER_5_YELLOWS
 
