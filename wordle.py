@@ -62,17 +62,17 @@ def get_letter_counts(words):
 def score_word(word, letter_counts):
     return sum([letter_counts[letter] for letter in set(word)])
 
-BLACK_LETTERS = ''
+BLACK_LETTERS = 'oed'
 LETTER_1_GREEN = ''
 LETTER_2_GREEN = ''
-LETTER_3_GREEN = ''
+LETTER_3_GREEN = 'r'
 LETTER_4_GREEN = ''
 LETTER_5_GREEN = ''
-LETTER_1_YELLOWS = ''
-LETTER_2_YELLOWS = ''
+LETTER_1_YELLOWS = 'a'
+LETTER_2_YELLOWS = 'ra'
 LETTER_3_YELLOWS = ''
-LETTER_4_YELLOWS = ''
-LETTER_5_YELLOWS = ''
+LETTER_4_YELLOWS = 'st'
+LETTER_5_YELLOWS = 's'
 YELLOWS = LETTER_1_YELLOWS + LETTER_2_YELLOWS + LETTER_3_YELLOWS + LETTER_4_YELLOWS + LETTER_5_YELLOWS
 
 possible_words = {
